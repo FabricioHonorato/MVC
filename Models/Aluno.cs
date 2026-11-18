@@ -1,0 +1,22 @@
+
+using System.ComponentModel.DataAnnotations;
+
+namespace PrimeiroProjetoMVC.Models
+{
+    public class Aluno
+    {
+        public int Id { get; set; }
+
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "O nome deve ter entre 2 e 50 caracteres.")]
+        [Required(ErrorMessage = "O nome é obrigatório")]
+        public string Nome { get; set; } = string.Empty; // string.Empty é uma forma de inicializar a propriedade com uma string vazia, evitando valores nulos
+
+        [Required(ErrorMessage = "O email é obrigatório")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
+        public string Email { get; set; } = string.Empty; 
+
+        [Range(16, 100, ErrorMessage = "Idade deve ser entre 16 e 100 anos")]
+        public int Idade { get; set; }
+    
+    }
+}
