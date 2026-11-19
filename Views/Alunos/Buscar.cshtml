@@ -1,0 +1,31 @@
+@using PrimeiroProjetoMVC.ViewModels
+
+@model BuscaAlunoViewModel
+@{
+    ViewData["title"] = "Buscar Aluno";
+}
+
+<h1>Buscar Aluno</h1>
+<form asp-action="Buscar" method="post">
+    <input asp-for="TermoBusca" placeholder="Nome do aluno..." /> 
+    <button type="submit">Buscar</button> 
+</form>
+
+@if(Model.Resultados.Any()) // Verifica se há resultados para exibir
+{
+    <table>
+  <tr>
+    <th>Nome</th>
+    <th>Email</th>
+    <th>Idade</th>
+  </tr>
+  @foreach ( Aluno a in Model.Resultados) // Itera sobre os resultados e exibe cada aluno em uma linha da tabela
+  {
+    <tr>
+      <td>@a.Nome</td>
+      <td>@a.Email</td>
+      <td>@a.Idade</td>       
+    </tr>        
+  }
+</table>
+}

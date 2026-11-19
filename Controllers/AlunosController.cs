@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PrimeiroProjetoMVC.Models;
+using PrimeiroProjetoMVC.ViewModels;
 
 namespace PrimeiroProjetoMVC.Controllers
 {
     public class AlunosController : Controller
     {
-       
         private static List<Aluno> _alunos = new()
         {
             new Aluno { Id = 1, Nome = "Ronaldo", Email = "fenomeno@gmail.com", Idade = 50 },  
@@ -26,7 +26,6 @@ namespace PrimeiroProjetoMVC.Controllers
             {
                 return NotFound(); // Retorna 404 se o aluno não for encontrado
             }
-
             return View(aluno);
         }
 
@@ -62,7 +61,24 @@ namespace PrimeiroProjetoMVC.Controllers
             return RedirectToAction("index"); // Redireciona para a lista de alunos
         }
 
+        // GET /Alunos/Buscar - exibe o formulário de busca de alunos
+        [HttpGet]
+        public IActionResult Buscar()
+        {
+            return View(new BuscaAlunoViewModel());
+        }
 
+        // POST /Alunos/Buscar - processa o formulário de busca de alunos
+        [HttpPost]
+        public IActionResult Buscar(BuscaAlunoViewModel vm)
+        {
+            if (!string.IsNullOrEmpty(vm.TermoBusca)) 
+            {
+            vm.Resultados = _alunos
+                .Where(a => a.Nome.Contains(vm.TermoBusca, StringComparison.OrdinalIgnoreCase)).ToList(); // Filtra os alunos pelo termo de busca, ignorando maiúsculas e minúsculas
+            }
 
+            return View(vm);
+        }
     }
 }
